@@ -1,0 +1,44 @@
+1.obs
+ffmpeg -re -i "hello.mp4" -c:v copy -c:a aac -ar 44100 -ac 1 -f flv rtmp://localhost/live/stream
+
+2.ethtool
+sudo ethtool -S enp0s3
+watch -n 1 "ethtool -S enp0s3"
+ethtool enp0s3
+ethtool -i enp0s3
+ethtool enp0s3 | grep "Link detected"
+ethtool -k enp0s3
+ethtool -S enp0s3
+
+
+3.mininet
+sudo mn --custom mesh.py --topo mrsh --controller remote
+
+
+4.ping and traceroute
+ping -c 5 google.com
+ping -s 128 google.com
+ping -i 2 google.com
+ping -t 10 goolr.com
+ping -D google.com
+
+traceroute -n ....
+traceroute -q 5 ...
+traceroute -m 10 ...
+traceroute -w 2 ....
+
+5.traffic control
+sudo tc qdisc add dev enp0s3 root tbf rate 1mbit burst 32kbit latency 400ms
+sudo tc qdisc del dev enp0s3 root
+sudo tc qdisc add dev lo root netem delay 100ms
+tc qdisc show
+sudo tc qdisc del dev enp0s3 root
+sudo tc qdisc add dev enp0s3 root netem loss 1%
+
+6.iperf
+ iperf -c 127.0.0.1 -t 20
+ iperf -c 127.0.0.1 -d -t 20
+ iperf3 -c 127.0.0.1 -R
+ iperf -c 127.0.0.1 -P 4
+ iperf -c 217.0.0.1 -w 64k
+ iperf -c 127.0.0.1 -u -b 1M
